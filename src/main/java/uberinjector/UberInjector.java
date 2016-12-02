@@ -1,11 +1,11 @@
 package uberinjector;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UberInjector {
     private Map<Class<?>, Class<?>> implementations;
@@ -22,7 +22,7 @@ public class UberInjector {
             // Bound class: return new implementation instance
             try {
                 instance = cls.cast(assembleInstance(implementation));
-            } catch (InjectorException e) {
+            } catch (Exception e) {
                 throw new InjectorException("Cannot instantiate %s (bound to %s): %s", implementation.getName(), cls.getName(), e.toString());
             }
         } else {
@@ -44,7 +44,7 @@ public class UberInjector {
         return instance;
     }
 
-    private Object assembleInstance(Class<?> implementation) throws InjectorException {
+    private Object assembleInstance(Class<?> implementation) throws InjectorException, IllegalAccessException, InvocationTargetException, InstantiationException {
         // Get an @Inject constructor
         Constructor constructor = null;
         for (Constructor c : implementation.getConstructors()) {
@@ -72,16 +72,12 @@ public class UberInjector {
         // Prepare it's arguments
         Type[] argTypes = constructor.getGenericParameterTypes();
         Object[] argValues = new Object[argTypes.length];
-        for (int i=0; i<argTypes.length; i++) {
+        for (int i = 0; i < argTypes.length; i++) {
             argValues[i] = getInstance((Class) argTypes[i]);
         }
 
         // Return an instance
-        try {
-            return constructor.newInstance(argValues);
-        } catch (Exception e) {
-            throw new InjectorException("Caught %s.", e.toString());
-        }
+        return constructor.newInstance(argValues);
     }
 
     public void bind(Class<?> iface, Class<?> cls) throws InjectorException {
