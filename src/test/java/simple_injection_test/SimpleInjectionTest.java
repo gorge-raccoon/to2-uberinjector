@@ -32,7 +32,7 @@ public class SimpleInjectionTest {
     @Test
     public void testNoBinding() throws InjectorException {
         thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate simple_injection_test.Doorman: missing simple_injection_test.WinterGreeter binding.");
+        thrown.expectMessage("Cannot instantiate simple_injection_test.Doorman (unbound): uberinjector.InjectorException: Cannot instantiate simple_injection_test.WinterGreeter: it's an interface.");
         UberInjector injector = new UberInjector();
         Doorman doorman = injector.getInstance(Doorman.class);
     }
