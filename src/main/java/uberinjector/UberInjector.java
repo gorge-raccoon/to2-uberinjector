@@ -1,5 +1,6 @@
 package uberinjector;
 
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,30 +13,40 @@ public class UberInjector {
 
     public <T> T getInstance(Class<T> cls) throws InjectorException {
         T instance;
-        if (implementations.containsKey(cls)) {
-            // Binding defined
-            Class<?> implementation = implementations.get(cls);
+
+        Class<?> implementation = implementations.get(cls);
+        if (implementation != null) {
+            // Bound class: return new implementation instance
             try {
                 instance = cls.cast(implementation.newInstance());
-            } catch (InstantiationException e) {
-                throw new InjectorException("Cannot instantiate %s (bound from %s). Does it have a nullary constructor?", implementation.getName(), cls.getName());
-            } catch (IllegalAccessException e) {
-                throw new InjectorException("Cannot access %s's nullary constructor (bound from %s).", implementation.getName(), cls.getName());
+            } catch (Exception e) {
+                throw new InjectorException("Cannot instantiate %s (bound to %s): %s caught.", implementation.getName(), cls.getName(), e.getClass().getName());
             }
         } else {
-            // No binding defined
+            // Unbound class: return new cls instance
+            int clsModifiers = cls.getModifiers();
+            if (Modifier.isInterface(clsModifiers)) {
+                throw new InjectorException("Cannot instantiate %s: it's an interface.", cls.getName());
+            }
+            if (Modifier.isAbstract(clsModifiers)) {
+                throw new InjectorException("Cannot instantiate %s: it's an abstract class.", cls.getName());
+            }
             try {
                 instance = cls.newInstance();
-            } catch (InstantiationException e) {
-                throw new InjectorException("Cannot instantiate %s (unbound). Does it have a nullary constructor?", cls.getName());
-            } catch (IllegalAccessException e) {
-                throw new InjectorException("Cannot access %s's nullary constructor (unbound).", cls.getName());
+            } catch (Exception e) {
+                throw new InjectorException("Cannot instantiate %s (unbound): %s caught.", cls.getName(), e.getClass().getName());
             }
         }
+
         return instance;
     }
 
-    public void bind(Class<?> iface, Class<?> cls) {
-        implementations.put(iface, cls);
+    public void bind(Class<?> iface, Class<?> cls) throws InjectorException {
+        int ifaceModifiers = iface.getModifiers();
+        if (Modifier.isInterface(ifaceModifiers) || Modifier.isAbstract(ifaceModifiers)) {
+            implementations.put(iface, cls);
+        } else {
+            throw new InjectorException("Cannot bind %s to %s: %s is neither an interface nor an abstract class.", iface.getName(), cls.getName(), iface.getName());
+        }
     }
 }
