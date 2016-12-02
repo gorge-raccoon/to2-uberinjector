@@ -71,7 +71,6 @@ public class UberInjector {
 
         // Prepare it's arguments
         Type[] argTypes = constructor.getGenericParameterTypes();
-        System.out.println(String.format("The constructor has %d arguments.", argTypes.length));
         Object[] argValues = new Object[argTypes.length];
         for (int i=0; i<argTypes.length; i++) {
             argValues[i] = getInstance((Class) argTypes[i]);
