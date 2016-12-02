@@ -31,7 +31,7 @@ public class SimpleBindingTest {
     @Test
     public void testMissingBinding() throws InjectorException {
         thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate simple_binding_test.WinterGreeter (unbound). Does it have a nullary constructor?");
+        thrown.expectMessage("Cannot instantiate simple_binding_test.WinterGreeter: it's an interface.");
         WinterGreeter greeter = injector.getInstance(WinterGreeter.class);
     }
 

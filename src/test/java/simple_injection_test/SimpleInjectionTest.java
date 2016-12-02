@@ -12,27 +12,29 @@ public class SimpleInjectionTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    private UberInjector injector = new UberInjector();
 
     @Test
-    public void testChristmas() throws InjectorException {
+    public void testChristmasDoorman() throws InjectorException {
+        UberInjector injector = new UberInjector();
         injector.bind(WinterGreeter.class, ChristmasGreeter.class);
-        GreeterUser greeter = injector.getInstance(GreeterUser.class);
-        assertEquals("Merry Christmas!", greeter.welcome());
+        Doorman doorman = injector.getInstance(Doorman.class);
+        assertEquals("Merry Christmas!", doorman.welcome());
     }
 
     @Test
-    public void testHanukkah() throws InjectorException {
+    public void testHanukkahDoorman() throws InjectorException {
+        UberInjector injector = new UberInjector();
         injector.bind(WinterGreeter.class, HanukkahGreeter.class);
-        GreeterUser greeter = injector.getInstance(GreeterUser.class);
-        assertEquals("Merry Christmas!", greeter.welcome());
+        Doorman doorman = injector.getInstance(Doorman.class);
+        assertEquals("Hanukkah Sameach!", doorman.welcome());
     }
 
-//    @Test
-//    public void testMissingBinding() throws InjectorException {
-//        thrown.expect(InjectorException.class);
-//        thrown.expectMessage("Cannot instantiate simple_injection_test.WinterGreeter (unbound). Does it have a nullary constructor?");
-//        GreeterUser greeter = injector.getInstance(GreeterUser.class);
-//    }
+    @Test
+    public void testNoBinding() throws InjectorException {
+        thrown.expect(InjectorException.class);
+        thrown.expectMessage("Cannot instantiate simple_injection_test.Doorman: missing simple_injection_test.WinterGreeter binding.");
+        UberInjector injector = new UberInjector();
+        Doorman doorman = injector.getInstance(Doorman.class);
+    }
 
 }

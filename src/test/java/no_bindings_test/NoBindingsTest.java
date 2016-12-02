@@ -24,7 +24,7 @@ public class NoBindingsTest {
     @Test
     public void testGetInterface() throws InjectorException {
         thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate java.util.Map (unbound). Does it have a nullary constructor?");
+        thrown.expectMessage("Cannot instantiate java.util.Map: it's an interface");
         injector.getInstance(Map.class);
     }
 

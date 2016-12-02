@@ -1,9 +1,12 @@
 package simple_injection_test;
 
-public class GreeterUser {
+import uberinjector.Inject;
+
+public class Doorman {
     private WinterGreeter greeter;
 
-    public GreeterUser(WinterGreeter greeter) {
+    @Inject
+    public Doorman(WinterGreeter greeter) {
         this.greeter = greeter;
     }
 
