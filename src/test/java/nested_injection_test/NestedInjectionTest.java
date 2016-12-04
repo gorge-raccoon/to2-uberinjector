@@ -32,4 +32,14 @@ public class NestedInjectionTest {
         assertEquals("Hanukkah Sameach!", person.Welcome());
         assertEquals("Takes your luggage", person.GetAction());
     }
+
+    @Test
+    public void hotelTest() throws InjectorException {
+        UberInjector injector = new UberInjector();
+        injector.bind(WinterGreeter.class, HanukkahGreeter.class);
+        injector.bind(Person.class, Porter.class);
+        injector.bind(Hotel.class, HiltonHotel.class);
+        Hotel hotel = injector.getInstance(Hotel.class);
+        assertEquals("Welcome to Hilton Hotel. Hanukkah Sameach!Takes your luggage", hotel.doHotelStuff());
+    }
 }
