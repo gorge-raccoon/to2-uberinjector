@@ -1,4 +1,4 @@
-package simple_binding_test;
+package tests_helper_classes;
 
 public class HanukkahGreeter implements WinterGreeter {
 

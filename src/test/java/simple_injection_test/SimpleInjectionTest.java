@@ -3,10 +3,12 @@ package simple_injection_test;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import tests_helper_classes.*;
 import uberinjector.InjectorException;
 import uberinjector.UberInjector;
 
 import static org.junit.Assert.assertEquals;
+
 
 public class SimpleInjectionTest {
 
@@ -18,7 +20,7 @@ public class SimpleInjectionTest {
         UberInjector injector = new UberInjector();
         injector.bind(WinterGreeter.class, ChristmasGreeter.class);
         Doorman doorman = injector.getInstance(Doorman.class);
-        assertEquals("Merry Christmas!", doorman.welcome());
+        assertEquals("Merry Christmas!", doorman.Welcome());
     }
 
     @Test
@@ -26,7 +28,7 @@ public class SimpleInjectionTest {
         UberInjector injector = new UberInjector();
         injector.bind(WinterGreeter.class, HanukkahGreeter.class);
         Doorman doorman = injector.getInstance(Doorman.class);
-        assertEquals("Hanukkah Sameach!", doorman.welcome());
+        assertEquals("Hanukkah Sameach!", doorman.Welcome());
     }
 
     @Test

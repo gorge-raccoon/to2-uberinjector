@@ -1,8 +1,8 @@
-package simple_injection_test;
+package tests_helper_classes;
 
 import uberinjector.Inject;
 
-public class Doorman {
+public class Doorman implements Person {
     private WinterGreeter greeter;
 
     @Inject
@@ -10,7 +10,11 @@ public class Doorman {
         this.greeter = greeter;
     }
 
-    public String welcome() {
+    public String Welcome() {
         return this.greeter.getWinterGreetings();
+    }
+
+    public String GetAction() {
+        return "Opens the door";
     }
 }
