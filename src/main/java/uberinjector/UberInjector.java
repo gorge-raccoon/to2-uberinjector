@@ -1,5 +1,7 @@
 package uberinjector;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -87,5 +89,9 @@ public class UberInjector {
         } else {
             throw new InjectorException("Cannot bind %s to %s: %s is neither an interface nor an abstract class.", iface.getName(), cls.getName(), iface.getName());
         }
+    }
+
+    public void bind(Class<?> iface, Class<?> cls, Class<?> named) throws InjectorException {
+        throw new NotImplementedException();
     }
 }
