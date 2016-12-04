@@ -23,6 +23,13 @@ public class NestedInjectionTest {
         assertEquals("Opens the door", person.GetAction());
     }
 
-
-
+    @Test
+    public void testHanukkahPorter() throws InjectorException {
+        UberInjector injector = new UberInjector();
+        injector.bind(WinterGreeter.class, HanukkahGreeter.class);
+        injector.bind(Person.class, Porter.class);
+        Person person = injector.getInstance(Person.class);
+        assertEquals("Hanukkah Sameach!", person.Welcome());
+        assertEquals("Takes your luggage", person.GetAction());
+    }
 }
