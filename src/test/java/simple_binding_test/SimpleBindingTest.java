@@ -32,7 +32,7 @@ public class SimpleBindingTest {
     @Test
     public void testMissingBinding() throws InjectorException {
         thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate simple_binding_test.WinterGreeter: it's an interface.");
+        thrown.expectMessage("Cannot instantiate tests_helper_classes.WinterGreeter: it's an interface.");
         WinterGreeter greeter = injector.getInstance(WinterGreeter.class);
     }
 
