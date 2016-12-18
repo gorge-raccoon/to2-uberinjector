@@ -20,7 +20,7 @@ public class SimpleInjectionTest {
         UberInjector injector = new UberInjector();
         injector.bind(WinterGreeter.class, ChristmasGreeter.class);
         Doorman doorman = injector.getInstance(Doorman.class);
-        assertEquals("Merry Christmas!", doorman.Welcome());
+        assertEquals("Merry Christmas!", doorman.welcome());
     }
 
     @Test
@@ -28,7 +28,7 @@ public class SimpleInjectionTest {
         UberInjector injector = new UberInjector();
         injector.bind(WinterGreeter.class, HanukkahGreeter.class);
         Doorman doorman = injector.getInstance(Doorman.class);
-        assertEquals("Hanukkah Sameach!", doorman.Welcome());
+        assertEquals("Hanukkah Sameach!", doorman.welcome());
     }
 
     @Test

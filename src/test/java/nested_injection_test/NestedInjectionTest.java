@@ -19,8 +19,8 @@ public class NestedInjectionTest {
         injector.bind(WinterGreeter.class, ChristmasGreeter.class);
         injector.bind(Person.class, Doorman.class);
         Person person = injector.getInstance(Person.class);
-        assertEquals("Merry Christmas!", person.Welcome());
-        assertEquals("Opens the door", person.GetAction());
+        assertEquals("Merry Christmas!", person.welcome());
+        assertEquals("Opens the door", person.getAction());
     }
 
     @Test
@@ -29,8 +29,8 @@ public class NestedInjectionTest {
         injector.bind(WinterGreeter.class, HanukkahGreeter.class);
         injector.bind(Person.class, Porter.class);
         Person person = injector.getInstance(Person.class);
-        assertEquals("Hanukkah Sameach!", person.Welcome());
-        assertEquals("Takes your luggage", person.GetAction());
+        assertEquals("Hanukkah Sameach!", person.welcome());
+        assertEquals("Takes your luggage", person.getAction());
     }
 
     @Test
@@ -40,6 +40,6 @@ public class NestedInjectionTest {
         injector.bind(Person.class, Porter.class);
         injector.bind(Hotel.class, HiltonHotel.class);
         Hotel hotel = injector.getInstance(Hotel.class);
-        assertEquals("Welcome to Hilton Hotel. Hanukkah Sameach!Takes your luggage", hotel.doHotelStuff());
+        assertEquals("welcome to Hilton Hotel. Hanukkah Sameach!Takes your luggage", hotel.doHotelStuff());
     }
 }
