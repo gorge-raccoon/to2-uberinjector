@@ -13,7 +13,7 @@ public class InstanceAssembler {
         this.uberInjector = uberInjector;
     }
 
-    public Object AssembleInstance(Class<?> implementation) throws InjectorException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public Object assembleInstance(Class<?> implementation) throws InjectorException, IllegalAccessException, InvocationTargetException, InstantiationException {
         // Get an @Inject constructor
         Constructor constructor = null;
         for (Constructor c : implementation.getConstructors()) {
