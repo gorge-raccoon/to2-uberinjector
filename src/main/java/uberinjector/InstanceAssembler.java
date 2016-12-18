@@ -1,16 +1,21 @@
 package uberinjector;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 
 
 public class InstanceAssembler {
 
     private final UberInjector uberInjector;
+    private SingletonsMap singletonsMap;
 
-    public InstanceAssembler(UberInjector uberInjector) {
+
+    public InstanceAssembler(UberInjector uberInjector, SingletonsMap singletonsMap) {
         this.uberInjector = uberInjector;
+        this.singletonsMap = singletonsMap;
     }
 
     public Object assembleInstance(Class<?> implementation) throws InjectorException, IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -22,14 +27,22 @@ public class InstanceAssembler {
             throw new InjectorException("Class %s has neither @Inject nor a no-argument constructor.", implementation.getName());
         }
 
-        // Prepare it's arguments
-        Type[] argTypes = constructor.getGenericParameterTypes();
-        Object[] argValues = new Object[argTypes.length];
-        for (int i = 0; i < argTypes.length; i++) {
-            argValues[i] = uberInjector.getInstance((Class) argTypes[i]);
+        // If it's a singleton, return it
+        Annotation singletonAnnotation = implementation.getAnnotation(Singleton.class);
+        if (singletonAnnotation != null) {
+            return singletonsMap.get(implementation);
         }
 
-        // Return an instance
+        // Prepare the constructor's arguments
+        Parameter[] parameters = constructor.getParameters();
+        Object[] argValues = new Object[parameters.length];
+        for (int i=0; i<parameters.length; i++) {
+            Parameter parameter = parameters[i];
+            Class<?> type = parameter.getType();
+            argValues[i] = uberInjector.getInstance(type);
+        }
+
+        // Return a new instance
         return constructor.newInstance(argValues);
     }
 

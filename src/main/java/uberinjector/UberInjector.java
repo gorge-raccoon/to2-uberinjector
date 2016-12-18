@@ -1,20 +1,16 @@
 package uberinjector;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.lang.reflect.Modifier;
-
 public class UberInjector {
-
+    private SingletonsMap singletonsMap;
     private InstanceAssembler instanceAssembler;
     private ImplementationsMap implementationsMap;
     private BoundInstanceGetter boundInstanceGetter;
     private UnboundInstanceGetter unboundInstanceGetter;
 
     public UberInjector() {
-
-        this.instanceAssembler = new InstanceAssembler(this);
-        this.implementationsMap = new ImplementationsMap();
+        this.singletonsMap = new SingletonsMap();
+        this.instanceAssembler = new InstanceAssembler(this, singletonsMap);
+        this.implementationsMap = new ImplementationsMap(singletonsMap);
         this.boundInstanceGetter = new BoundInstanceGetter(instanceAssembler);
         this.unboundInstanceGetter = new UnboundInstanceGetter(instanceAssembler);
     }
