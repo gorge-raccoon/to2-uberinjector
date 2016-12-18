@@ -31,7 +31,7 @@ public class ImplementationsMap {
 
         // Create an instance of an eager singleton if necessary
         Singleton singletonAnnotation = cls.getAnnotation(Singleton.class);
-        if (singletonAnnotation.eager()) {
+        if (singletonAnnotation != null && singletonAnnotation.eager()) {
             try {
                 singletonsMap.get(cls);
             } catch (Exception e) {
