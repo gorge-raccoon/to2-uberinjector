@@ -14,7 +14,7 @@ public class HiltonHotel implements Hotel {
 
     @Override
     public String doHotelStuff() {
-        return "Welcome to Hilton Hotel. " + worker.Welcome() + worker.GetAction();
+        return "welcome to Hilton Hotel. " + worker.welcome() + worker.getAction();
     }
 
 }

@@ -16,7 +16,7 @@ public class NamedTest {
         injector.bind(WinterGreeter.class, HanukkahGreeter.class, Hanukkah.class);
         injector.bind(Person.class, Receptionist.class);
         Person person = injector.getInstance(Person.class);
-        assertEquals("Hanukkah Sameach!", person.Welcome());
-        assertEquals("Does receptionist stuff", person.GetAction());
+        assertEquals("Hanukkah Sameach!", person.welcome());
+        assertEquals("Does receptionist stuff", person.getAction());
     }
 }

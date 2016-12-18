@@ -10,11 +10,11 @@ public class Doorman implements Person {
         this.greeter = greeter;
     }
 
-    public String Welcome() {
+    public String welcome() {
         return this.greeter.getWinterGreetings();
     }
 
-    public String GetAction() {
+    public String getAction() {
         return "Opens the door";
     }
 }
