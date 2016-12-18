@@ -2,18 +2,13 @@ package uberinjector;
 
 import java.lang.reflect.Modifier;
 
-public class UnboundInstanceGetter {
+public class UnboundInstanceGetter extends InstanceGetter {
 
-    private final InstanceAssembler instanceAssembler;
-
-    public UnboundInstanceGetter(InstanceAssembler instanceAssembler)
-    {
-        this.instanceAssembler = instanceAssembler;
+    public UnboundInstanceGetter(InstanceAssembler instanceAssembler) {
+        super(instanceAssembler);
     }
 
-    public <T> T getInstance(Class<T> cls) throws InjectorException
-    {
-        // Unbound class: return new cls instance
+    public <T> T getInstance(Class<T> cls) throws InjectorException {
         int clsModifiers = cls.getModifiers();
         if (Modifier.isInterface(clsModifiers)) {
             throw new InjectorException("Cannot instantiate %s: it's an interface.", cls.getName());

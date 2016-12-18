@@ -24,6 +24,7 @@ public class UberInjector {
 
         Class<?> implementation = implementationsMap.get(cls);
         if (implementation != null) {
+            // Bound class: return new implementation instance
             instance = boundInstanceGetter.getInstance(cls, implementation);
         } else {
             // Unbound class: return new cls instance
@@ -37,7 +38,7 @@ public class UberInjector {
         implementationsMap.bind(iface, cls);
     }
 
-    public void bind(Class<?> iface, Class<?> cls, Class<?> named) throws InjectorException {
-        throw new NotImplementedException();
+    public void bind(Class<?> iface, Class<?> cls, Class<?> name) throws InjectorException {
+
     }
 }

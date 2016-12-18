@@ -1,15 +1,12 @@
 package uberinjector;
 
-public class BoundInstanceGetter {
-    private final InstanceAssembler instanceAssembler;
+public class BoundInstanceGetter extends InstanceGetter {
 
-    public BoundInstanceGetter(InstanceAssembler instanceAssembler)
-    {
-        this.instanceAssembler = instanceAssembler;
+    public BoundInstanceGetter(InstanceAssembler instanceAssembler) {
+        super(instanceAssembler);
     }
 
     public <T> T getInstance(Class<T> cls, Class<?> implementation) throws InjectorException {
-        // Bound class: return new implementation instance
         T instance;
         try {
             instance = cls.cast(instanceAssembler.assembleInstance(implementation));
