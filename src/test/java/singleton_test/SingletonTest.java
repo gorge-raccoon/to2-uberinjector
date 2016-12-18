@@ -33,4 +33,12 @@ public class SingletonTest {
         SomeInterface b = injector.getInstance(SomeInterface.class);
         assertEquals(a, b);
     }
+
+    @Test
+    public void testSingletonInjection() throws InjectorException {
+        UberInjector injector = new UberInjector();
+        SingletonUser u1 = injector.getInstance(SingletonUser.class);
+        SingletonUser u2 = injector.getInstance(SingletonUser.class);
+        assertEquals(u1.singleton, u2.singleton);
+    }
 }
