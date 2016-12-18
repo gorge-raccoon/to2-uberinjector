@@ -15,6 +15,25 @@ public class InstanceAssembler {
 
     public Object assembleInstance(Class<?> implementation) throws InjectorException, IllegalAccessException, InvocationTargetException, InstantiationException {
         // Get an @Inject constructor
+        Constructor constructor = getConstructor(implementation);
+
+        // If there's neither @Inject nor a no-argument constructor, throw an exception
+        if (constructor == null) {
+            throw new InjectorException("Class %s has neither @Inject nor a no-argument constructor.", implementation.getName());
+        }
+
+        // Prepare it's arguments
+        Type[] argTypes = constructor.getGenericParameterTypes();
+        Object[] argValues = new Object[argTypes.length];
+        for (int i = 0; i < argTypes.length; i++) {
+            argValues[i] = uberInjector.getInstance((Class) argTypes[i]);
+        }
+
+        // Return an instance
+        return constructor.newInstance(argValues);
+    }
+
+    private Constructor getConstructor(Class<?> implementation) {
         Constructor constructor = null;
         for (Constructor c : implementation.getConstructors()) {
             if (c.getAnnotation(Inject.class) != null) {
@@ -32,20 +51,6 @@ public class InstanceAssembler {
                 }
             }
         }
-
-        // If there's neither @Inject nor a no-argument constructor, throw an exception
-        if (constructor == null) {
-            throw new InjectorException("Class %s has neither @Inject nor a no-argument constructor.", implementation.getName());
-        }
-
-        // Prepare it's arguments
-        Type[] argTypes = constructor.getGenericParameterTypes();
-        Object[] argValues = new Object[argTypes.length];
-        for (int i = 0; i < argTypes.length; i++) {
-            argValues[i] = uberInjector.getInstance((Class) argTypes[i]);
-        }
-
-        // Return an instance
-        return constructor.newInstance(argValues);
+        return constructor;
     }
 }
