@@ -1,7 +1,6 @@
 package singleton_test;
 
 import org.junit.Test;
-import tests_helper_classes.Red;
 import uberinjector.InjectorException;
 import uberinjector.UberInjector;
 
@@ -13,6 +12,14 @@ public class SingletonTest {
         UberInjector injector = new UberInjector();
         SingletonClass a = injector.getInstance(SingletonClass.class);
         SingletonClass b = injector.getInstance(SingletonClass.class);
+        assertEquals(a, b);
+    }
+
+    @Test
+    public void testEagerSingleton() throws InjectorException {
+        UberInjector injector = new UberInjector();
+        EagerSingletonClass a = injector.getInstance(EagerSingletonClass.class);
+        EagerSingletonClass b = injector.getInstance(EagerSingletonClass.class);
         assertEquals(a, b);
     }
 }
