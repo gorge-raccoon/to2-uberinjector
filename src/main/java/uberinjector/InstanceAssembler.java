@@ -35,11 +35,20 @@ public class InstanceAssembler {
 
         // Prepare the constructor's arguments
         Parameter[] parameters = constructor.getParameters();
+        Annotation[][] annotations = constructor.getParameterAnnotations();
         Object[] argValues = new Object[parameters.length];
         for (int i=0; i<parameters.length; i++) {
             Parameter parameter = parameters[i];
             Class<?> type = parameter.getType();
-            argValues[i] = uberInjector.getInstance(type);
+
+            for(int j=0; j<annotations[i].length; j++)
+            {
+                argValues[i] = uberInjector.getInstance(type, annotations[i][j].annotationType());
+            }
+            if(annotations[i].length == 0)
+            {
+                argValues[i] = uberInjector.getInstance(type);
+            }
         }
 
         // Return a new instance
