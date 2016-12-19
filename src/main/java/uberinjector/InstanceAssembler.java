@@ -41,11 +41,19 @@ public class InstanceAssembler {
             Parameter parameter = parameters[i];
             Class<?> type = parameter.getType();
 
-            for(int j=0; j<annotations[i].length; j++)
+            for(int j=0; j<annotations[i].length && argValues[i] == null; j++)
             {
-                argValues[i] = uberInjector.getInstance(type, annotations[i][j].annotationType());
+                try
+                {
+                    argValues[i] = uberInjector.getInstance(type, annotations[i][j].annotationType());
+                }
+                catch(Exception e)
+                {
+                    //todo - how to handle other annotations on parameters
+                }
+
             }
-            if(annotations[i].length == 0)
+            if(argValues[i] == null)
             {
                 argValues[i] = uberInjector.getInstance(type);
             }
