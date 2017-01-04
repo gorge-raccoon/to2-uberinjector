@@ -60,7 +60,15 @@ public class InstanceAssembler {
         }
 
         // Return a new instance
-        return constructor.newInstance(argValues);
+        Object instance = constructor.newInstance(argValues);
+
+        invokeSettersOn(instance);
+
+        return instance;
+    }
+
+    private void invokeSettersOn(Object instance) {
+        //TODO
     }
 
     private Constructor getConstructor(Class<?> implementation) {
