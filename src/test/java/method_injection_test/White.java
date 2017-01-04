@@ -1,8 +1,6 @@
 package method_injection_test;
 
-import tests_helper_classes.*;
-
-public class White implements tests_helper_classes.Color {
+public class White implements Color {
     @Override
     public String getName() {
         return "white";

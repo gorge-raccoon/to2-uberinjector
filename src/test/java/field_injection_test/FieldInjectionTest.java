@@ -22,7 +22,6 @@ public class FieldInjectionTest {
     public void namedBindingTest() throws InjectorException {
         UberInjector injector = new UberInjector();
         injector.bind(Size.class, Big.class);
-        injector.bind(Color.class, Black.class);
         injector.bind(Color.class, White.class, Racist.class);
         RacistBall ball = injector.getInstance(RacistBall.class);
         assertEquals("The ball is big and white.", ball.getDescription());
