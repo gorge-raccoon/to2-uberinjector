@@ -39,6 +39,7 @@ public class InstanceAssembler {
         Object instance = constructor.newInstance(argValues);
 
         invokeSettersOn(instance);
+        initiateFieldsOn(instance);
 
         return instance;
     }
@@ -90,6 +91,32 @@ public class InstanceAssembler {
             }
         }
         return argValues;
+    }
+
+    private void initiateFieldsOn(Object instance) throws InjectorException, IllegalAccessException {
+        Class<?> cls = instance.getClass();
+        for(Field field: cls.getFields()) {
+            //Annotation[] annotations = field.getAnnotations();
+            if(field.getAnnotation(Inject.class) != null)
+            {
+                Class<?> fieldCls = field.getType();
+                Object fieldValue = null;
+
+                for(Annotation annotation: field.getAnnotations()){
+                    if(annotation.annotationType() != Inject.class)
+                    {
+                        fieldValue = uberInjector.getInstance(fieldCls, annotation.annotationType());
+                    }
+                }
+                if(fieldValue == null)
+                {
+                    fieldValue = uberInjector.getInstance(fieldCls);
+                }
+
+                field.set(instance, fieldValue);
+            }
+
+        }
     }
 
     private void invokeSettersOn(Object instance) throws InjectorException, InvocationTargetException, IllegalAccessException {
