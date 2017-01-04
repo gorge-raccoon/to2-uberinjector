@@ -3,8 +3,8 @@ package method_injection_test;
 import uberinjector.Inject;
 
 public class Ball {
-    private Size size;
-    private Color color;
+    protected Size size;
+    protected Color color;
 
     @Inject
     public void setSize(Size size) {
