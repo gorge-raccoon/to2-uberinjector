@@ -34,7 +34,7 @@ public class SimpleMultipleBindingsTest {
     @Test
     public void testMissingBindings() throws InjectorException {
         thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate tests_helper_classes.Color: it's an interface.");
+        thrown.expectMessage("Cannot instantiate tests_helper_classes.Color");
         Figure figure = injector.getInstance(Figure.class);
     }
 

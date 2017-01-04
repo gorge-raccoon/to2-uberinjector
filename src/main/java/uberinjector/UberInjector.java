@@ -1,48 +1,48 @@
 package uberinjector;
 
-import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
 
 public class UberInjector {
     private SingletonsMap singletonsMap;
     private InstanceAssembler instanceAssembler;
     private ImplementationsMap implementationsMap;
     private NamedImplementationsMap namedImplementationsMap;
-    private BoundInstanceGetter boundInstanceGetter;
-    private UnboundInstanceGetter unboundInstanceGetter;
 
     public UberInjector() {
         this.singletonsMap = new SingletonsMap();
         this.instanceAssembler = new InstanceAssembler(this, singletonsMap);
         this.implementationsMap = new ImplementationsMap(singletonsMap);
-        this.boundInstanceGetter = new BoundInstanceGetter(instanceAssembler);
-        this.unboundInstanceGetter = new UnboundInstanceGetter(instanceAssembler);
         this.namedImplementationsMap = new NamedImplementationsMap(singletonsMap);
     }
 
     public <T> T getInstance(Class<T> cls) throws InjectorException {
-        T instance;
-
-        Class<?> implementation = implementationsMap.get(cls);
-        if (implementation != null) {
-            // Bound class: return new implementation instance
-            instance = boundInstanceGetter.getInstance(cls, implementation);
-        } else {
-            // Unbound class: return new cls instance
-            instance = unboundInstanceGetter.getInstance(cls);
-        }
-
-        return instance;
+        return getInstance(cls, null);
     }
 
-    <T> T getInstance(Class<T> cls, Class<?> annotation) throws InjectorException{
+    public <T> T getInstance(Class<T> cls, Class<?> annotation) throws InjectorException{
         T instance;
-        Class<?> implementation = namedImplementationsMap.get(cls, annotation);
-        if (implementation != null) {
-            // Bound class: return new implementation instance
-            instance = boundInstanceGetter.getInstance(cls, implementation);
-        } else {
-            // Unbound class: return new cls instance
-            instance = unboundInstanceGetter.getInstance(cls);
+
+        int clsModifiers = cls.getModifiers();
+        Class<?> implementation;
+        if (!Modifier.isInterface(clsModifiers) && !Modifier.isAbstract(clsModifiers)) {
+            implementation = cls;
+        }
+        else
+        {
+            if(annotation != null)
+            {
+                implementation = namedImplementationsMap.get(cls, annotation);
+            }
+            else
+            {
+                implementation = implementationsMap.get(cls);
+            }
+        }
+
+        try {
+            instance = cls.cast(instanceAssembler.assembleInstance(implementation));
+        } catch (Exception e) {
+            throw new InjectorException("Cannot instantiate %s (bound to %s): %s", implementation.getName(), cls.getName(), e.toString());
         }
 
         return instance;

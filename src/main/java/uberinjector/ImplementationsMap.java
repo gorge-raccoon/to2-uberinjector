@@ -17,9 +17,18 @@ public class ImplementationsMap {
         this.singletonsMap = singletonsMap;
     }
 
-    public Class<?> get(Class<?> cls)
+    public Class<?> get(Class<?> cls) throws InjectorException
     {
-        return implementations.get(cls);
+        if(!implementations.containsKey(cls))
+        {
+            throw new InjectorException("Cannot instantiate %s: no valid implementation bound", cls.getName());
+        }
+        Class<?> impl = implementations.get(cls);
+        int clsModifiers = impl.getModifiers();
+        if (Modifier.isInterface(clsModifiers) || Modifier.isAbstract(clsModifiers)) {
+            return this.get(impl);
+        }
+        return impl;
     }
 
     public void bind(Class<?> iface, Class<?> cls) throws InjectorException {

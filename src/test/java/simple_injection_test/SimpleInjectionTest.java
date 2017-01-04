@@ -34,7 +34,7 @@ public class SimpleInjectionTest {
     @Test
     public void testNoBinding() throws InjectorException {
         thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate tests_helper_classes.Doorman (unbound): uberinjector.InjectorException: Cannot instantiate tests_helper_classes.WinterGreeter: it's an interface.");
+        thrown.expectMessage("Cannot instantiate tests_helper_classes.Doorman ");
         UberInjector injector = new UberInjector();
         Doorman doorman = injector.getInstance(Doorman.class);
     }
