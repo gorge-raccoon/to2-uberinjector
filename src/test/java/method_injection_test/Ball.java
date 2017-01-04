@@ -7,16 +7,16 @@ public class Ball {
     private Color color;
 
     @Inject
-    void setSize(Size size) {
+    public void setSize(Size size) {
         this.size = size;
     }
 
     @Inject
-    void setColor(Color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
     public String getDescription() {
-        return String.format("The ball is {} and {}.", this.size.getName(), this.color.getName());
+        return String.format("The ball is %s and %s.", this.size.getName(), this.color.getName());
     }
 }

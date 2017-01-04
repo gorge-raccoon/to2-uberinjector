@@ -1,10 +1,9 @@
 package uberinjector;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class InstanceAssembler {
@@ -34,8 +33,40 @@ public class InstanceAssembler {
         }
 
         // Prepare the constructor's arguments
-        Parameter[] parameters = constructor.getParameters();
-        Annotation[][] annotations = constructor.getParameterAnnotations();
+        Object[] argValues = getArgValues(constructor);
+
+        // Create a new instance
+        Object instance = constructor.newInstance(argValues);
+
+        invokeSettersOn(instance);
+
+        return instance;
+    }
+
+    private Constructor getConstructor(Class<?> implementation) {
+        Constructor constructor = null;
+        for (Constructor c : implementation.getConstructors()) {
+            if (c.getAnnotation(Inject.class) != null) {
+                constructor = c;
+                break;
+            }
+        }
+
+        // If no @Inject constructor found, find a no-argument constructor
+        if (constructor == null) {
+            for (Constructor c : implementation.getConstructors()) {
+                if (c.getParameterCount() == 0) {
+                    constructor = c;
+                    break;
+                }
+            }
+        }
+        return constructor;
+    }
+
+    private Object[] getArgValues(Executable executable) throws InjectorException {
+        Parameter[] parameters = executable.getParameters();
+        Annotation[][] annotations = executable.getParameterAnnotations();
         Object[] argValues = new Object[parameters.length];
         for (int i=0; i<parameters.length; i++) {
             Parameter parameter = parameters[i];
@@ -58,37 +89,26 @@ public class InstanceAssembler {
                 argValues[i] = uberInjector.getInstance(type);
             }
         }
-
-        // Return a new instance
-        Object instance = constructor.newInstance(argValues);
-
-        invokeSettersOn(instance);
-
-        return instance;
+        return argValues;
     }
 
-    private void invokeSettersOn(Object instance) {
-        //TODO
-    }
+    private void invokeSettersOn(Object instance) throws InjectorException, InvocationTargetException, IllegalAccessException {
+        //TODO singletons
 
-    private Constructor getConstructor(Class<?> implementation) {
-        Constructor constructor = null;
-        for (Constructor c : implementation.getConstructors()) {
-            if (c.getAnnotation(Inject.class) != null) {
-                constructor = c;
-                break;
+        // Collect all @Inject setters
+        List<Method> injectionMethods = new ArrayList();
+        for (Method method : instance.getClass().getMethods()) {
+            Annotation injectAnnotation = method.getAnnotation(Inject.class);
+            if (injectAnnotation != null) {
+                // This is a setter method
+                injectionMethods.add(method);
             }
         }
 
-        // If no @Inject constructor found, find a no-argument constructor
-        if (constructor == null) {
-            for (Constructor c : implementation.getConstructors()) {
-                if (c.getParameterCount() == 0) {
-                    constructor = c;
-                    break;
-                }
-            }
+        // Invoke the setters
+        for (Method method : injectionMethods) {
+            Object argValues[] = getArgValues(method);
+            method.invoke(instance, argValues);
         }
-        return constructor;
     }
 }
