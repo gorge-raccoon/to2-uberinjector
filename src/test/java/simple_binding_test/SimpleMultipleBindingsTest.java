@@ -3,7 +3,8 @@ package simple_binding_test;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import uberinjector.InjectorException;
+import uberinjector.Exceptions.InjectorException;
+import uberinjector.Exceptions.InstantiationException;
 import uberinjector.UberInjector;
 import tests_helper_classes.*;
 
@@ -33,8 +34,7 @@ public class SimpleMultipleBindingsTest {
 
     @Test
     public void testMissingBindings() throws InjectorException {
-        thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate tests_helper_classes.Color");
+        thrown.expect(InstantiationException.class);
         Figure figure = injector.getInstance(Figure.class);
     }
 

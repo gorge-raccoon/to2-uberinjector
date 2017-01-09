@@ -1,6 +1,7 @@
 package uberinjector;
 
 import org.junit.Test;
+import uberinjector.Exceptions.InjectorException;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,5 +1,8 @@
 package uberinjector;
 
+import uberinjector.Exceptions.InjectorException;
+import uberinjector.Exceptions.NoBindingException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +33,7 @@ public class NamedImplementationsMap {
     public <T> Class<?> get(Class<T> cls, Class<?> annotation) throws InjectorException {
         if(!this.namedMap.containsKey(annotation))
         {
-            throw new InjectorException("No bindings for annotation: " + annotation.getName() + " for class:" + cls.getName());
+            throw new NoBindingException(annotation, cls);
         }
 
         ImplementationsMap mapForAnnotation = namedMap.get(annotation);
@@ -39,7 +42,7 @@ public class NamedImplementationsMap {
         }
         catch(Exception e)
         {
-            throw new InjectorException("No bindings for annotation: " + annotation.getName() + " for class:" + cls.getName());
+            throw new NoBindingException(annotation, cls);
         }
 
     }

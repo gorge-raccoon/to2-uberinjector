@@ -1,5 +1,8 @@
 package uberinjector;
 
+import uberinjector.Exceptions.InjectorException;
+import uberinjector.Exceptions.InstantiationException;
+
 import java.lang.reflect.Modifier;
 
 public class UberInjector {
@@ -42,7 +45,7 @@ public class UberInjector {
         try {
             instance = cls.cast(instanceAssembler.assembleInstance(implementation));
         } catch (Exception e) {
-            throw new InjectorException("Cannot instantiate %s (bound to %s): %s", implementation.getName(), cls.getName(), e.toString());
+            throw new InstantiationException(cls);
         }
 
         return instance;

@@ -2,7 +2,7 @@ package field_injection_test;
 
 import method_injection_test.*;
 import org.junit.Test;
-import uberinjector.InjectorException;
+import uberinjector.Exceptions.InjectorException;
 import uberinjector.UberInjector;
 
 import static org.junit.Assert.assertEquals;

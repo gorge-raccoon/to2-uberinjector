@@ -4,7 +4,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import tests_helper_classes.*;
-import uberinjector.InjectorException;
+import uberinjector.Exceptions.InjectorException;
+import uberinjector.Exceptions.InstantiationException;
 import uberinjector.UberInjector;
 
 import static org.junit.Assert.assertEquals;
@@ -33,8 +34,7 @@ public class SimpleInjectionTest {
 
     @Test
     public void testNoBinding() throws InjectorException {
-        thrown.expect(InjectorException.class);
-        thrown.expectMessage("Cannot instantiate tests_helper_classes.Doorman ");
+        thrown.expect(InstantiationException.class);
         UberInjector injector = new UberInjector();
         Doorman doorman = injector.getInstance(Doorman.class);
     }

@@ -1,6 +1,9 @@
 package uberinjector;
 
-import java.lang.annotation.Annotation;
+import uberinjector.Exceptions.BindingException;
+import uberinjector.Exceptions.InjectorException;
+import uberinjector.Exceptions.InstantiationException;
+
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +24,7 @@ public class ImplementationsMap {
     {
         if(!implementations.containsKey(cls))
         {
-            throw new InjectorException("Cannot instantiate %s: no valid implementation bound", cls.getName());
+            throw new InstantiationException(cls);
         }
         Class<?> impl = implementations.get(cls);
         int clsModifiers = impl.getModifiers();
@@ -36,7 +39,7 @@ public class ImplementationsMap {
         if (Modifier.isInterface(ifaceModifiers) || Modifier.isAbstract(ifaceModifiers)) {
             implementations.put(iface, cls);
         } else {
-            throw new InjectorException("Cannot bind %s to %s: %s is neither an interface nor an abstract class.", iface.getName(), cls.getName(), iface.getName());
+            throw new BindingException(iface, cls);
         }
 
         // Create an instance of an eager singleton if necessary

@@ -3,7 +3,7 @@ package no_bindings_test;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import uberinjector.InjectorException;
+import uberinjector.Exceptions.InjectorException;
 import uberinjector.UberInjector;
 
 import java.util.Map;

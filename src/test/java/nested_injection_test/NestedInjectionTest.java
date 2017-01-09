@@ -3,7 +3,7 @@ package nested_injection_test;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import uberinjector.InjectorException;
+import uberinjector.Exceptions.InjectorException;
 import uberinjector.UberInjector;
 import tests_helper_classes.*;
 

@@ -1,5 +1,8 @@
 package uberinjector;
 
+import uberinjector.Exceptions.InjectorException;
+import uberinjector.Exceptions.NoConstructorException;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ public class InstanceAssembler {
 
         // If there's neither @Inject nor a no-argument constructor, throw an exception
         if (constructor == null) {
-            throw new InjectorException("Class %s has neither @Inject nor a no-argument constructor.", implementation.getName());
+            throw new NoConstructorException(implementation);
         }
 
         // If it's a singleton, return it
