@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class ImplementationsMap {
     private Map<Class<?>, Class<?>> implementations;
+    private Map<Class<?>, Object> implementationsObjects;
     private SingletonsMap singletonsMap;
 
 
@@ -17,14 +18,19 @@ public class ImplementationsMap {
     public ImplementationsMap(SingletonsMap singletonsMap)
     {
         implementations = new HashMap<>();
+        implementationsObjects = new HashMap<>();
         this.singletonsMap = singletonsMap;
     }
 
-    public Class<?> get(Class<?> cls) throws InjectorException
+    public Object get(Class<?> cls) throws InjectorException
     {
-        if(!implementations.containsKey(cls))
+        if(!implementations.containsKey(cls) && !implementationsObjects.containsKey(cls))
         {
-            throw new InstantiationException(cls);
+            return null;
+        }
+        if(implementationsObjects.containsKey(cls))
+        {
+            return implementationsObjects.get(cls);
         }
         Class<?> impl = implementations.get(cls);
         int clsModifiers = impl.getModifiers();
@@ -50,6 +56,13 @@ public class ImplementationsMap {
             } catch (Exception e) {
                 throw new InjectorException(String.format("Cannot insantiate an eager singleton %s bound to %s.", cls.getName(), iface.getName()));
             }
+        }
+    }
+
+    public void bind(Class<?> cls, Object object) throws InjectorException {
+        if(object.getClass() == cls)
+        {
+            implementationsObjects.put(cls, object);
         }
     }
 }

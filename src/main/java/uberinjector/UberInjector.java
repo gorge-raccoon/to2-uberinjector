@@ -2,6 +2,7 @@ package uberinjector;
 
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.InstantiationException;
+import uberinjector.Exceptions.NoBindingException;
 
 import java.lang.reflect.Modifier;
 
@@ -23,29 +24,46 @@ public class UberInjector {
     }
 
     public <T> T getInstance(Class<T> cls, Class<?> annotation) throws InjectorException{
-        T instance;
+        T instance = null;
 
         int clsModifiers = cls.getModifiers();
-        Class<?> implementation;
-        if (!Modifier.isInterface(clsModifiers) && !Modifier.isAbstract(clsModifiers)) {
-            implementation = cls;
+        Object implementation;
+
+        if(annotation != null)
+        {
+            implementation = namedImplementationsMap.get(cls, annotation);
         }
         else
         {
-            if(annotation != null)
+            implementation = implementationsMap.get(cls);
+        }
+
+        if (implementation == null && !Modifier.isInterface(clsModifiers) && !Modifier.isAbstract(clsModifiers)) {
+            implementation = cls;
+        }
+        else if(implementation == null)
+        {
+            if(annotation == null)
             {
-                implementation = namedImplementationsMap.get(cls, annotation);
+                throw new InstantiationException(cls);
             }
             else
             {
-                implementation = implementationsMap.get(cls);
+                throw new NoBindingException(cls, annotation);
             }
         }
 
-        try {
-            instance = cls.cast(instanceAssembler.assembleInstance(implementation));
-        } catch (Exception e) {
-            throw new InstantiationException(cls);
+        if(implementation instanceof Class)
+        {
+            try {
+                instance = cls.cast(instanceAssembler.assembleInstance((Class<T>)implementation));
+            } catch (Exception e) {
+                throw new InstantiationException(cls);
+            }
+        }
+        else
+        {
+            instance = (T)implementation;
         }
 
         return instance;
@@ -57,5 +75,10 @@ public class UberInjector {
 
     public void bind(Class<?> iface, Class<?> cls, Class<?> annotation) throws InjectorException {
         namedImplementationsMap.bind(iface, cls, annotation);
+    }
+
+    public void bind(Class<?> iface, Object object) throws InjectorException
+    {
+        implementationsMap.bind(iface, object);
     }
 }

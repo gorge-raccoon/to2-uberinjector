@@ -30,10 +30,10 @@ public class NamedImplementationsMap {
     }
 
 
-    public <T> Class<?> get(Class<T> cls, Class<?> annotation) throws InjectorException {
+    public <T> Object get(Class<T> cls, Class<?> annotation) throws InjectorException {
         if(!this.namedMap.containsKey(annotation))
         {
-            throw new NoBindingException(annotation, cls);
+            return null; //throw new NoBindingException(annotation, cls);
         }
 
         ImplementationsMap mapForAnnotation = namedMap.get(annotation);
