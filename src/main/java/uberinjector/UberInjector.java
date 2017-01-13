@@ -81,4 +81,9 @@ public class UberInjector {
     {
         implementationsMap.bind(iface, object);
     }
+
+    public void bind(Class<?> iface, Object object, Class<?> annotation) throws InjectorException
+    {
+        namedImplementationsMap.bind(iface, object, annotation);
+    }
 }

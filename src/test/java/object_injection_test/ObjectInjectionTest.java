@@ -23,4 +23,15 @@ public class ObjectInjectionTest {
         WinterGreeter test = injector.getInstance(WinterGreeter.class);
         assertEquals("Happy Flying Spaghetti Monster Day", test.GetGreeting());
     }
+
+    @Test
+    public void testNamedGreetingInjection() throws InjectorException {
+        UberInjector injector = new UberInjector();
+        injector.bind(IWinterGreeter.class, AnotherWinterGreeter.class);
+        injector.bind(String.class, "Happy Russell's Teapot Day", Russell.class);
+        IWinterGreeter test = injector.getInstance(IWinterGreeter.class);
+        assertEquals("Happy Russell's Teapot Day", test.GetGreeting());
+    }
+
+
 }

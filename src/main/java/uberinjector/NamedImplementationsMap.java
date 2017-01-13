@@ -29,6 +29,16 @@ public class NamedImplementationsMap {
         mapForAnnotation.bind(iface, cls);
     }
 
+    public void bind(Class<?> cls, Object object, Class<?> annotation) throws InjectorException {
+        if(!this.namedMap.containsKey(annotation))
+        {
+            this.namedMap.put(annotation, new ImplementationsMap(singletonsMap));
+        }
+
+        ImplementationsMap mapForAnnotation = namedMap.get(annotation);
+        mapForAnnotation.bind(cls, object);
+    }
+
 
     public <T> Object get(Class<T> cls, Class<?> annotation) throws InjectorException {
         if(!this.namedMap.containsKey(annotation))
