@@ -11,7 +11,7 @@ public class AnotherWinterGreeter implements IWinterGreeter {
         this.greeting = greeting;
     }
 
-    public String GetGreeting()
+    public String getGreeting()
     {
         return greeting;
     }

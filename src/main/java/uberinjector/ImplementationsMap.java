@@ -24,6 +24,11 @@ public class ImplementationsMap {
 
     public Object get(Class<?> cls) throws InjectorException
     {
+        if(PrimitivesMapper.Contains(cls))
+        {
+            cls = PrimitivesMapper.GetBox(cls);
+        }
+
         if(!implementations.containsKey(cls) && !implementationsObjects.containsKey(cls))
         {
             return null;
@@ -60,6 +65,10 @@ public class ImplementationsMap {
     }
 
     public void bind(Class<?> cls, Object object) throws InjectorException {
+        if(PrimitivesMapper.Contains(cls))
+        {
+            cls = PrimitivesMapper.GetBox(cls);
+        }
         if(object.getClass() == cls)
         {
             implementationsObjects.put(cls, object);
