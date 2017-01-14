@@ -2,6 +2,7 @@ package uberinjector;
 
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.InstantiationException;
+import uberinjector.Exceptions.InvalidAnnotationException;
 import uberinjector.Exceptions.NoBindingException;
 
 import java.lang.reflect.Modifier;
@@ -24,13 +25,16 @@ public class UberInjector {
     }
 
     public <T> T getInstance(Class<T> cls, Class<?> annotation) throws InjectorException{
-        T instance = null;
+        T instance;
 
         int clsModifiers = cls.getModifiers();
         Object implementation;
 
         if(annotation != null)
         {
+            if (annotation.getAnnotation(Named.class) == null) {
+                throw new InvalidAnnotationException(annotation);
+            }
             implementation = namedImplementationsMap.get(cls, annotation);
         }
         else
@@ -74,6 +78,9 @@ public class UberInjector {
     }
 
     public void bind(Class<?> iface, Class<?> cls, Class<?> annotation) throws InjectorException {
+        if (annotation.getAnnotation(Named.class) == null) {
+            throw new InvalidAnnotationException(annotation);
+        }
         namedImplementationsMap.bind(iface, cls, annotation);
     }
 
@@ -84,6 +91,9 @@ public class UberInjector {
 
     public void bind(Class<?> iface, Object object, Class<?> annotation) throws InjectorException
     {
+        if (annotation.getAnnotation(Named.class) == null) {
+            throw new InvalidAnnotationException(annotation);
+        }
         namedImplementationsMap.bind(iface, object, annotation);
     }
 }

@@ -76,21 +76,24 @@ public class InstanceAssembler {
             Parameter parameter = parameters[i];
             Class<?> type = parameter.getType();
 
-            for(int j=0; j<annotations[i].length && argValues[i] == null; j++)
-            {
-                try
-                {
-                    argValues[i] = uberInjector.getInstance(type, annotations[i][j].annotationType());
+            Class<? extends Annotation> name = null;
+            for (Annotation annotation: annotations[i]) {
+                Annotation[] annotationAnnotations = annotation.getClass().getAnnotations();
+                for (Annotation a: annotationAnnotations) {
+                    if (a instanceof Named) {
+                        name = annotation.getClass();
+                        break;
+                    }
                 }
-                catch(Exception e)
-                {
-                    //todo - how to handle other annotations on parameters
+                if (name != null) {
+                    break;
                 }
-
             }
-            if(argValues[i] == null)
-            {
+
+            if (name == null) {
                 argValues[i] = uberInjector.getInstance(type);
+            } else {
+                argValues[i] = uberInjector.getInstance(type, name);
             }
         }
         return argValues;
