@@ -33,14 +33,14 @@ public class NamedTest {
     }
 
     @Test
-    public void hotelTestChristmas() throws InjectorException {
+    public void hotelTestHanukkah() throws InjectorException {
         UberInjector injector = new UberInjector();
-        injector.bind(WinterGreeter.class, ChristmasGreeter.class);
+        injector.bind(WinterGreeter.class, HanukkahGreeter.class, Hanukkah.class);
         injector.bind(Person.class, Porter.class);
         injector.bind(Person.class, Receptionist.class, ReceptionistAnnotation.class);
         injector.bind(Hotel.class, AnotherHotel.class);
         Hotel hotel = injector.getInstance(Hotel.class);
-        assertEquals("welcome to Another Hotel. Merry Christmas!Does receptionist stuff", hotel.doHotelStuff());
+        assertEquals("welcome to Another Hotel. Hanukkah Sameach!Does receptionist stuff", hotel.doHotelStuff());
     }
 
     @Test
