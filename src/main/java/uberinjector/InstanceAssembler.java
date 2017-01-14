@@ -78,10 +78,10 @@ public class InstanceAssembler {
 
             Class<? extends Annotation> name = null;
             for (Annotation annotation: annotations[i]) {
-                Annotation[] annotationAnnotations = annotation.getClass().getAnnotations();
+                Annotation[] annotationAnnotations = annotation.annotationType().getAnnotations();
                 for (Annotation a: annotationAnnotations) {
                     if (a instanceof Named) {
-                        name = annotation.getClass();
+                        name = annotation.annotationType();
                         break;
                     }
                 }
