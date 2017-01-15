@@ -40,7 +40,7 @@ public class NamedImplementationsMap {
     }
 
 
-    public <T> Object get(Class<T> cls, Class<?> annotation) throws InjectorException {
+    public Object get(Class<?> cls, Class<?> annotation) throws InjectorException {
         if(!this.namedMap.containsKey(annotation))
         {
             return null; //throw new NoBindingException(annotation, cls);

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ImplementationsMap {
     private Map<Class<?>, Class<?>> implementations;
-    private Map<Class<?>, Object> implementationsObjects;
+    private Map<Class<?>, Object> implementationObjects;
     private SingletonsMap singletonsMap;
 
 
@@ -18,7 +18,7 @@ public class ImplementationsMap {
     public ImplementationsMap(SingletonsMap singletonsMap)
     {
         implementations = new HashMap<>();
-        implementationsObjects = new HashMap<>();
+        implementationObjects = new HashMap<>();
         this.singletonsMap = singletonsMap;
     }
 
@@ -26,16 +26,16 @@ public class ImplementationsMap {
     {
         if(cls.isPrimitive())
         {
-            cls = PrimitivesMapper.GetBox(cls);
+            cls = PrimitivesMapper.getBox(cls);
         }
 
-        if(!implementations.containsKey(cls) && !implementationsObjects.containsKey(cls))
+        if(!implementations.containsKey(cls) && !implementationObjects.containsKey(cls))
         {
             return null;
         }
-        if(implementationsObjects.containsKey(cls))
+        if(implementationObjects.containsKey(cls))
         {
-            return implementationsObjects.get(cls);
+            return implementationObjects.get(cls);
         }
         Class<?> impl = implementations.get(cls);
         int clsModifiers = impl.getModifiers();
@@ -67,11 +67,11 @@ public class ImplementationsMap {
     public void bind(Class<?> cls, Object object) throws InjectorException {
         if(cls.isPrimitive())
         {
-            cls = PrimitivesMapper.GetBox(cls);
+            cls = PrimitivesMapper.getBox(cls);
         }
         if(object.getClass() == cls)
         {
-            implementationsObjects.put(cls, object);
+            implementationObjects.put(cls, object);
         }
     }
 }

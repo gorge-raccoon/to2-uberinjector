@@ -16,7 +16,7 @@ public class PrimitivesMapper {
         map.put(boolean.class, Boolean.class);
     }
 
-    public static Class<?> GetBox(Class<?> cls)
+    public static Class<?> getBox(Class<?> cls)
     {
         return map.get(cls);
     }

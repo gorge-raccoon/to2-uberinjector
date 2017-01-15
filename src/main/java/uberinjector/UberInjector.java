@@ -59,7 +59,7 @@ public class UberInjector {
         namedImplementationsMap.bind(iface, object, annotation);
     }
 
-    private <T> Object getImplementation(Class<T> cls, Class<?> annotation) throws InjectorException {
+    private Object getImplementation(Class<?> cls, Class<?> annotation) throws InjectorException {
         Object implementation;
 
         int clsModifiers = cls.getModifiers();
