@@ -20,9 +20,4 @@ public class PrimitivesMapper {
     {
         return map.get(cls);
     }
-
-    public static boolean Contains(Class<?> cls)
-    {
-        return map.containsKey(cls);
-    }
 }

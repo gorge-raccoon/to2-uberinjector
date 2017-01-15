@@ -24,7 +24,7 @@ public class ImplementationsMap {
 
     public Object get(Class<?> cls) throws InjectorException
     {
-        if(PrimitivesMapper.Contains(cls))
+        if(cls.isPrimitive())
         {
             cls = PrimitivesMapper.GetBox(cls);
         }
@@ -65,7 +65,7 @@ public class ImplementationsMap {
     }
 
     public void bind(Class<?> cls, Object object) throws InjectorException {
-        if(PrimitivesMapper.Contains(cls))
+        if(cls.isPrimitive())
         {
             cls = PrimitivesMapper.GetBox(cls);
         }
