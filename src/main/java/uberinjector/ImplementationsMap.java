@@ -1,8 +1,8 @@
 package uberinjector;
 
+import uberinjector.Annotations.Singleton;
 import uberinjector.Exceptions.BindingException;
 import uberinjector.Exceptions.InjectorException;
-import uberinjector.Exceptions.InstantiationException;
 
 import java.lang.reflect.Modifier;
 import java.util.HashMap;

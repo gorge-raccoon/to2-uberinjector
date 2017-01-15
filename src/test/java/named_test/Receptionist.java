@@ -2,7 +2,7 @@ package named_test;
 
 import tests_helper_classes.Person;
 import tests_helper_classes.WinterGreeter;
-import uberinjector.Inject;
+import uberinjector.Annotations.Inject;
 
 public class Receptionist implements Person {
     private WinterGreeter greeter;

@@ -1,6 +1,6 @@
 package singleton_test;
 
-import uberinjector.Singleton;
+import uberinjector.Annotations.Singleton;
 
 @Singleton(eager=true)
 public class EagerSingletonClass implements SomeInterface {

@@ -1,7 +1,6 @@
 package singleton_test;
 
-import uberinjector.Inject;
-import uberinjector.Singleton;
+import uberinjector.Annotations.Inject;
 
 public class SingletonUser {
     public SingletonClass singleton;

@@ -2,7 +2,7 @@ package named_test;
 
 import tests_helper_classes.Hotel;
 import tests_helper_classes.Person;
-import uberinjector.Inject;
+import uberinjector.Annotations.Inject;
 
 public class AnotherHotel implements Hotel {
 

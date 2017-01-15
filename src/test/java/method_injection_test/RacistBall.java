@@ -1,6 +1,6 @@
 package method_injection_test;
 
-import uberinjector.Inject;
+import uberinjector.Annotations.Inject;
 
 public class RacistBall extends Ball {
     @Inject

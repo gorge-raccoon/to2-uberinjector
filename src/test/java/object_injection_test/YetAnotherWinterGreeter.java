@@ -1,6 +1,6 @@
 package object_injection_test;
 
-import uberinjector.Inject;
+import uberinjector.Annotations.Inject;
 
 public class YetAnotherWinterGreeter implements IWinterGreeter {
 

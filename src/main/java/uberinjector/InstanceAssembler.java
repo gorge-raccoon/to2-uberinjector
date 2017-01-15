@@ -1,5 +1,8 @@
 package uberinjector;
 
+import uberinjector.Annotations.Inject;
+import uberinjector.Annotations.Named;
+import uberinjector.Annotations.Singleton;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.NoConstructorException;
 

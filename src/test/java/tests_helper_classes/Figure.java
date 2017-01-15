@@ -1,6 +1,6 @@
 package tests_helper_classes;
 
-import uberinjector.Inject;
+import uberinjector.Annotations.Inject;
 
 public class Figure {
     private Color color;

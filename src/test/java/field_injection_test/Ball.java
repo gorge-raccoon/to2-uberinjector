@@ -2,7 +2,7 @@ package field_injection_test;
 
 import method_injection_test.Color;
 import method_injection_test.Size;
-import uberinjector.Inject;
+import uberinjector.Annotations.Inject;
 
 public class Ball {
     @Inject public Size size;

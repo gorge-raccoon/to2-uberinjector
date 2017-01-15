@@ -1,5 +1,6 @@
 package uberinjector;
 
+import uberinjector.Annotations.Named;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.InstantiationException;
 import uberinjector.Exceptions.InvalidAnnotationException;
