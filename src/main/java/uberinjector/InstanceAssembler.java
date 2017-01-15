@@ -15,12 +15,10 @@ import java.util.List;
 public class InstanceAssembler {
 
     private final UberInjector uberInjector;
-    private SingletonsMap singletonsMap;
 
 
-    public InstanceAssembler(UberInjector uberInjector, SingletonsMap singletonsMap) {
+    public InstanceAssembler(UberInjector uberInjector) {
         this.uberInjector = uberInjector;
-        this.singletonsMap = singletonsMap;
     }
 
     public Object assembleInstance(Class<?> implementation) throws InjectorException, IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -30,12 +28,6 @@ public class InstanceAssembler {
         // If there's neither @Inject nor a no-argument constructor, throw an exception
         if (constructor == null) {
             throw new NoConstructorException(implementation);
-        }
-
-        // If it's a singleton, return it
-        Annotation singletonAnnotation = implementation.getAnnotation(Singleton.class);
-        if (singletonAnnotation != null) {
-            return singletonsMap.get(implementation);
         }
 
         // Prepare the constructor's arguments
@@ -129,7 +121,6 @@ public class InstanceAssembler {
     }
 
     private void invokeSettersOn(Object instance) throws InjectorException, InvocationTargetException, IllegalAccessException {
-        //TODO singletons
 
         // Collect all @Inject setters
         List<Method> injectionMethods = new ArrayList();
