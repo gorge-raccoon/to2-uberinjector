@@ -3,10 +3,10 @@ package singleton_test;
 import uberinjector.Annotations.Inject;
 
 public class SingletonUser {
-    public SingletonClass singleton;
+    public SomeInterface singleton;
 
     @Inject
-    public SingletonUser(SingletonClass singleton) {
+    public SingletonUser(SomeInterface singleton) {
         this.singleton = singleton;
     }
 }
