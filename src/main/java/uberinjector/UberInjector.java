@@ -8,19 +8,18 @@ import uberinjector.Exceptions.InvalidAnnotationException;
 import uberinjector.Exceptions.NoBindingException;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 public class UberInjector {
-    private SingletonsMap singletonsMap;
     private InstanceAssembler instanceAssembler;
     private ImplementationsMap implementationsMap;
     private NamedImplementationsMap namedImplementationsMap;
 
     public UberInjector() {
-        this.singletonsMap = new SingletonsMap();
         this.instanceAssembler = new InstanceAssembler(this);
-        this.implementationsMap = new ImplementationsMap(singletonsMap);
-        this.namedImplementationsMap = new NamedImplementationsMap(singletonsMap);
+        this.implementationsMap = new ImplementationsMap(instanceAssembler);
+        this.namedImplementationsMap = new NamedImplementationsMap(instanceAssembler);
     }
 
     public <T> T getInstance(Class<T> cls) throws InjectorException {
@@ -87,18 +86,18 @@ public class UberInjector {
 
         if (implementation instanceof Class) {
             try {
-                Annotation singletonAnnotation = ((Class<T>) implementation).getAnnotation(Singleton.class);
-                if (singletonAnnotation != null) {
-                    instance = cls.cast(singletonsMap.get((Class<T>) implementation));
-                } else {
                     instance = cls.cast(instanceAssembler.assembleInstance((Class<T>) implementation));
-                }
-            } catch (Exception e) {
+                } catch (Exception e) {
                 throw new InstantiationException(cls);
             }
         } else {
             instance = (T) implementation;
         }
         return instance;
+    }
+
+    public void InitializeEagerSingletons() throws InjectorException{
+        implementationsMap.InitializeEagerSingletons();
+        namedImplementationsMap.InitializeEagerSingletons();
     }
 }

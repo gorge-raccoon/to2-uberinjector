@@ -5,6 +5,7 @@ import uberinjector.Exceptions.BindingException;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Utils.PrimitivesMapper;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,10 +16,10 @@ public class ImplementationsMap {
     private SingletonsMap singletonsMap;
 
 
-    public ImplementationsMap(SingletonsMap singletonsMap) {
+    public ImplementationsMap(InstanceAssembler instanceAssembler) {
         implementations = new HashMap<>();
         implementationObjects = new HashMap<>();
-        this.singletonsMap = singletonsMap;
+        this.singletonsMap = new SingletonsMap(instanceAssembler);
     }
 
     public Object get(Class<?> cls) throws InjectorException {
@@ -26,13 +27,24 @@ public class ImplementationsMap {
             cls = PrimitivesMapper.getBox(cls);
         }
 
-        if (!implementations.containsKey(cls) && !implementationObjects.containsKey(cls)) {
-            return null;
+        if (cls.getAnnotation(Singleton.class) != null)
+        {
+            return singletonsMap.get(cls);
         }
+
         if (implementationObjects.containsKey(cls)) {
             return implementationObjects.get(cls);
         }
+
         Class<?> impl = implementations.get(cls);
+        if(impl == null)
+        {
+            return null;
+        }
+        if (impl.getAnnotation(Singleton.class) != null)
+        {
+            return singletonsMap.get(impl);
+        }
         int clsModifiers = impl.getModifiers();
         if (Modifier.isInterface(clsModifiers) || Modifier.isAbstract(clsModifiers)) {
             return this.get(impl);
@@ -52,7 +64,7 @@ public class ImplementationsMap {
         Singleton singletonAnnotation = cls.getAnnotation(Singleton.class);
         if (singletonAnnotation != null && singletonAnnotation.eager()) {
             try {
-                singletonsMap.get(cls);
+                singletonsMap.register(cls);
             } catch (Exception e) {
                 throw new InjectorException(String.format("Cannot insantiate an eager singleton %s bound to %s.", cls.getName(), iface.getName()));
             }
@@ -66,5 +78,9 @@ public class ImplementationsMap {
         if (object.getClass() == cls) {
             implementationObjects.put(cls, object);
         }
+    }
+
+    public void InitializeEagerSingletons() throws InjectorException {
+        singletonsMap.InitiateEagerSingletonClasses();
     }
 }

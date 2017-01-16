@@ -28,6 +28,7 @@ public class SingletonTest {
     public void testBoundEagerSingleton() throws InjectorException {
         UberInjector injector = new UberInjector();
         injector.bind(SomeInterface.class, EagerSingletonClass.class);
+        injector.InitializeEagerSingletons();
         SomeInterface a = injector.getInstance(SomeInterface.class);
         SomeInterface b = injector.getInstance(SomeInterface.class);
         assertSame(a, b);
@@ -37,6 +38,7 @@ public class SingletonTest {
     public void testSingletonInjection() throws InjectorException {
         UberInjector injector = new UberInjector();
         injector.bind(SomeInterface.class, EagerSingletonClass.class);
+        injector.InitializeEagerSingletons();
         SingletonUser u1 = injector.getInstance(SingletonUser.class);
         SingletonUser u2 = injector.getInstance(SingletonUser.class);
         assertSame(u1.singleton, u2.singleton);
