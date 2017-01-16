@@ -104,7 +104,7 @@ public class InstanceAssembler {
                 Object fieldValue = null;
 
                 for(Annotation annotation: field.getAnnotations()){
-                    if(annotation.annotationType() != Inject.class)
+                    if(annotation.annotationType().getAnnotationsByType(Named.class).length > 0)
                     {
                         fieldValue = uberInjector.getInstance(fieldCls, annotation.annotationType());
                     }
