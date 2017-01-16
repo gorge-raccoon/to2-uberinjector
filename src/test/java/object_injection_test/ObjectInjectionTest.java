@@ -2,7 +2,6 @@ package object_injection_test;
 
 
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.UberInjector;
 
@@ -46,7 +45,7 @@ public class ObjectInjectionTest {
     public void testNamedPrimitivesInjection() throws InjectorException {
         UberInjector injector = new UberInjector();
         injector.bind(IWinterGreeter.class, YetAnotherWinterGreeter.class);
-        injector.bind(String.class , "Happy Russell's Teapot Day, distance of teapot from mars in kilometers is ", Russell.class);
+        injector.bind(String.class, "Happy Russell's Teapot Day, distance of teapot from mars in kilometers is ", Russell.class);
         injector.bind(int.class, 50000, Number.class);
         IWinterGreeter test = injector.getInstance(IWinterGreeter.class);
         assertEquals(test.getGreeting(), "Happy Russell's Teapot Day, distance of teapot from mars in kilometers is 50000");

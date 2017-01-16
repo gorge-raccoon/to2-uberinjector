@@ -27,7 +27,7 @@ public class UberInjector {
         return getInstance(cls, null);
     }
 
-    public <T> T getInstance(Class<T> cls, Class<?> annotation) throws InjectorException{
+    public <T> T getInstance(Class<T> cls, Class<?> annotation) throws InjectorException {
 
         Object implementation = getImplementation(cls, annotation);
 
@@ -46,13 +46,11 @@ public class UberInjector {
         namedImplementationsMap.bind(iface, cls, annotation);
     }
 
-    public void bind(Class<?> iface, Object object) throws InjectorException
-    {
+    public void bind(Class<?> iface, Object object) throws InjectorException {
         implementationsMap.bind(iface, object);
     }
 
-    public void bind(Class<?> iface, Object object, Class<?> annotation) throws InjectorException
-    {
+    public void bind(Class<?> iface, Object object, Class<?> annotation) throws InjectorException {
         if (annotation.getAnnotation(Named.class) == null) {
             throw new InvalidAnnotationException(annotation);
         }
@@ -63,29 +61,21 @@ public class UberInjector {
         Object implementation;
 
         int clsModifiers = cls.getModifiers();
-        if(annotation != null)
-        {
+        if (annotation != null) {
             if (annotation.getAnnotation(Named.class) == null) {
                 throw new InvalidAnnotationException(annotation);
             }
             implementation = namedImplementationsMap.get(cls, annotation);
-        }
-        else
-        {
+        } else {
             implementation = implementationsMap.get(cls);
         }
 
         if (implementation == null && !Modifier.isInterface(clsModifiers) && !Modifier.isAbstract(clsModifiers)) {
             implementation = cls;
-        }
-        else if(implementation == null)
-        {
-            if(annotation == null)
-            {
+        } else if (implementation == null) {
+            if (annotation == null) {
                 throw new InstantiationException(cls);
-            }
-            else
-            {
+            } else {
                 throw new NoBindingException(cls, annotation);
             }
         }
@@ -95,24 +85,19 @@ public class UberInjector {
     private <T> T getInstanceForImplementation(Class<T> cls, Object implementation) throws InstantiationException {
         T instance;
 
-        if(implementation instanceof Class)
-        {
+        if (implementation instanceof Class) {
             try {
-                Annotation singletonAnnotation = ((Class<T>)implementation).getAnnotation(Singleton.class);
+                Annotation singletonAnnotation = ((Class<T>) implementation).getAnnotation(Singleton.class);
                 if (singletonAnnotation != null) {
-                    instance = cls.cast(singletonsMap.get((Class<T>)implementation));
-                }
-                else
-                {
-                    instance = cls.cast(instanceAssembler.assembleInstance((Class<T>)implementation));
+                    instance = cls.cast(singletonsMap.get((Class<T>) implementation));
+                } else {
+                    instance = cls.cast(instanceAssembler.assembleInstance((Class<T>) implementation));
                 }
             } catch (Exception e) {
                 throw new InstantiationException(cls);
             }
-        }
-        else
-        {
-            instance = (T)implementation;
+        } else {
+            instance = (T) implementation;
         }
         return instance;
     }

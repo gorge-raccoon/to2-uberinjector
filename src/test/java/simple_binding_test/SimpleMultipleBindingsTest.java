@@ -3,10 +3,10 @@ package simple_binding_test;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import tests_helper_classes.*;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.InstantiationException;
 import uberinjector.UberInjector;
-import tests_helper_classes.*;
 
 import static org.junit.Assert.assertEquals;
 

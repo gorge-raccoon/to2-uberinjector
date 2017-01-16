@@ -12,8 +12,7 @@ public class RussellMethodGreeter implements IWinterGreeter {
     }
 
     @Inject
-    public void setString(@Russell String greeting)
-    {
+    public void setString(@Russell String greeting) {
         this.greeting = greeting;
     }
 }

@@ -7,13 +7,11 @@ public class WinterGreeter {
     private String greeting;
 
     @Inject
-    public WinterGreeter(String greeting)
-    {
+    public WinterGreeter(String greeting) {
         this.greeting = greeting;
     }
 
-    public String GetGreeting()
-    {
+    public String GetGreeting() {
         return greeting;
     }
 }

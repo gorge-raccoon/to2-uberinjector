@@ -7,9 +7,8 @@ public class HiltonHotel implements Hotel {
     private Person worker;
 
     @Inject
-    public HiltonHotel(Person worker)
-    {
-        this.worker=worker;
+    public HiltonHotel(Person worker) {
+        this.worker = worker;
     }
 
     @Override

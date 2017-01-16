@@ -3,9 +3,11 @@ package simple_binding_test;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import tests_helper_classes.ChristmasGreeter;
+import tests_helper_classes.HanukkahGreeter;
+import tests_helper_classes.WinterGreeter;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.UberInjector;
-import tests_helper_classes.*;
 
 import static org.junit.Assert.assertEquals;
 

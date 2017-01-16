@@ -2,7 +2,6 @@ package uberinjector;
 
 import uberinjector.Annotations.Inject;
 import uberinjector.Annotations.Named;
-import uberinjector.Annotations.Singleton;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.NoConstructorException;
 
@@ -67,14 +66,14 @@ public class InstanceAssembler {
         Parameter[] parameters = executable.getParameters();
         Annotation[][] annotations = executable.getParameterAnnotations();
         Object[] argValues = new Object[parameters.length];
-        for (int i=0; i<parameters.length; i++) {
+        for (int i = 0; i < parameters.length; i++) {
             Parameter parameter = parameters[i];
             Class<?> type = parameter.getType();
 
             Class<? extends Annotation> name = null;
-            for (Annotation annotation: annotations[i]) {
+            for (Annotation annotation : annotations[i]) {
                 Annotation[] annotationAnnotations = annotation.annotationType().getAnnotations();
-                for (Annotation a: annotationAnnotations) {
+                for (Annotation a : annotationAnnotations) {
                     if (a instanceof Named) {
                         name = annotation.annotationType();
                         break;
@@ -96,21 +95,18 @@ public class InstanceAssembler {
 
     private void initiateFieldsOn(Object instance) throws InjectorException, IllegalAccessException {
         Class<?> cls = instance.getClass();
-        for(Field field: cls.getFields()) {
+        for (Field field : cls.getFields()) {
             //Annotation[] annotations = field.getAnnotations();
-            if(field.getAnnotation(Inject.class) != null)
-            {
+            if (field.getAnnotation(Inject.class) != null) {
                 Class<?> fieldCls = field.getType();
                 Object fieldValue = null;
 
-                for(Annotation annotation: field.getAnnotations()){
-                    if(annotation.annotationType().getAnnotationsByType(Named.class).length > 0)
-                    {
+                for (Annotation annotation : field.getAnnotations()) {
+                    if (annotation.annotationType().getAnnotationsByType(Named.class).length > 0) {
                         fieldValue = uberInjector.getInstance(fieldCls, annotation.annotationType());
                     }
                 }
-                if(fieldValue == null)
-                {
+                if (fieldValue == null) {
                     fieldValue = uberInjector.getInstance(fieldCls);
                 }
 

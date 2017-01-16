@@ -8,8 +8,7 @@ public class YetAnotherWinterGreeter implements IWinterGreeter {
     private String greeting;
 
     @Inject
-    public YetAnotherWinterGreeter(@Number int number, @Russell String greeting)
-    {
+    public YetAnotherWinterGreeter(@Number int number, @Russell String greeting) {
         this.number = number;
         this.greeting = greeting;
     }

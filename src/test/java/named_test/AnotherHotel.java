@@ -9,9 +9,8 @@ public class AnotherHotel implements Hotel {
     private Person worker;
 
     @Inject
-    public AnotherHotel(@ReceptionistAnnotation Person worker)
-    {
-        this.worker=worker;
+    public AnotherHotel(@ReceptionistAnnotation Person worker) {
+        this.worker = worker;
     }
 
     @Override

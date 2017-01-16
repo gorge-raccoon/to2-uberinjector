@@ -4,7 +4,6 @@ import org.junit.Test;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.UberInjector;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public class SingletonTest {

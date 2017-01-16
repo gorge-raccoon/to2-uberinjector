@@ -1,9 +1,9 @@
 package named_test;
 
 import org.junit.Test;
+import tests_helper_classes.*;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.UberInjector;
-import tests_helper_classes.*;
 
 import static org.junit.Assert.assertEquals;
 

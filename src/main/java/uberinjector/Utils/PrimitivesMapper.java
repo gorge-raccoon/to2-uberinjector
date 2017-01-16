@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class PrimitivesMapper {
     private static HashMap<Class<?>, Class<?>> map = new HashMap<Class<?>, Class<?>>();
-    static
-    {
+
+    static {
         map.put(byte.class, Byte.class);
         map.put(short.class, Short.class);
         map.put(char.class, Character.class);
@@ -16,8 +16,7 @@ public class PrimitivesMapper {
         map.put(boolean.class, Boolean.class);
     }
 
-    public static Class<?> getBox(Class<?> cls)
-    {
+    public static Class<?> getBox(Class<?> cls) {
         return map.get(cls);
     }
 }
