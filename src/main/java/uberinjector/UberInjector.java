@@ -1,14 +1,11 @@
 package uberinjector;
 
 import uberinjector.Annotations.Named;
-import uberinjector.Annotations.Singleton;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.InstantiationException;
 import uberinjector.Exceptions.InvalidAnnotationException;
 import uberinjector.Exceptions.NoBindingException;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 public class UberInjector {
@@ -96,8 +93,8 @@ public class UberInjector {
         return instance;
     }
 
-    public void InitializeEagerSingletons() throws InjectorException{
-        implementationsMap.InitializeEagerSingletons();
-        namedImplementationsMap.InitializeEagerSingletons();
+    public void initializeEagerSingletons() throws InjectorException{
+        implementationsMap.initializeEagerSingletons();
+        namedImplementationsMap.initializeEagerSingletons();
     }
 }

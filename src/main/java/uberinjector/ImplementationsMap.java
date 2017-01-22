@@ -5,7 +5,6 @@ import uberinjector.Exceptions.BindingException;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Utils.PrimitivesMapper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +79,7 @@ public class ImplementationsMap {
         }
     }
 
-    public void InitializeEagerSingletons() throws InjectorException {
-        singletonsMap.InitiateEagerSingletonClasses();
+    public void initializeEagerSingletons() throws InjectorException {
+        singletonsMap.initiateEagerSingletonClasses();
     }
 }

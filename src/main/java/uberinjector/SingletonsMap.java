@@ -41,7 +41,7 @@ public class SingletonsMap {
 
 
 
-    public void InitiateEagerSingletonClasses() throws InjectorException{
+    public void initiateEagerSingletonClasses() throws InjectorException{
         for(Class<?> cls: classes) {
             try
             {

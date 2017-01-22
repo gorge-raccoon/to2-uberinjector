@@ -3,7 +3,6 @@ package uberinjector;
 import uberinjector.Exceptions.InjectorException;
 import uberinjector.Exceptions.NoBindingException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,10 +50,10 @@ public class NamedImplementationsMap {
 
     }
 
-    public void InitializeEagerSingletons() throws InjectorException {
+    public void initializeEagerSingletons() throws InjectorException {
         for(ImplementationsMap map: namedMap.values())
         {
-            map.InitializeEagerSingletons();
+            map.initializeEagerSingletons();
         }
     }
 }
